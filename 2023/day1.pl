@@ -1,3 +1,9 @@
+:- module(day1,[
+    peek//1,
+    eof//0,
+    lines//1
+]).
+
 :- use_module(library(dcgs)).
 :- use_module(library(dif)).
 :- use_module(library(lists)).
@@ -25,12 +31,12 @@ part1(Result) :-
     sum_list(Numbers,Result).
 
 line_number(Line,Number) :-
-    numeric_chars(Line, Digits),
+    chars_digits(Line, Digits),
     phrase((peek(First),...,[Last]), Digits),
     number_chars(Number,[First,Last]).
 
-numeric_chars([],[]).
-numeric_chars([C|Chars],Digits) :- (char_type(C,numeric) -> numeric_chars(Chars,Digits0),Digits = [C|Digits0]; numeric_chars(Chars,Digits)).
+chars_digits([],[]).
+chars_digits([C|Chars],Digits) :- (char_type(C,numeric) -> chars_digits(Chars,Digits0),Digits = [C|Digits0]; chars_digits(Chars,Digits)).
 
 
 part2(Result) :-
@@ -44,16 +50,16 @@ line_number2(Line,Number) :-
     phrase((peek(First),...,[Last]), Digits),
     Number is First*10+Last.
 
-spelled_number(1),['e'] --> "one".
-spelled_number(2),['o'] --> "two".
-spelled_number(3),['e'] --> "three".
-spelled_number(4),['r'] --> "four".
-spelled_number(5),['e'] --> "five".
-spelled_number(6),['x'] --> "six".
-spelled_number(7),['n'] --> "seven".
-spelled_number(8),['t'] --> "eight".
-spelled_number(9),['e'] --> "nine".
-spelled_number(0),['o'] --> "zero".
+spelled_number(1),"e" --> "one".
+spelled_number(2),"o" --> "two".
+spelled_number(3),"e" --> "three".
+spelled_number(4),"r" --> "four".
+spelled_number(5),"e" --> "five".
+spelled_number(6),"x" --> "six".
+spelled_number(7),"n" --> "seven".
+spelled_number(8),"t" --> "eight".
+spelled_number(9),"e" --> "nine".
+spelled_number(0),"o" --> "zero".
 
 numeric_string([]) --> eof.
 numeric_string([N|R]) --> [C], {char_type(C,numeric),number_chars(N,[C])},numeric_string(R).
