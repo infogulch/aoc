@@ -39,16 +39,28 @@ line_game(Line,Id-Rounds) :-
 
 part1(Sum) :-
     games(Gs),
-    maplist(game_max,Gs,Ids),
+    maplist(game_max_id,Gs,Ids),
     sum_list(Ids,Sum).
 
-game_max(Id-Rounds,Id0) :-
+game_max_id(Id-Rounds,Id0) :-
     transpose(Rounds,[R,G,B]),
     list_max(R,MaxR),
     list_max(G,MaxG),
     list_max(B,MaxB),
     (MaxR =< 12,MaxG =< 13,MaxB =< 14 -> Id0 = Id; Id0 = 0).
 
-run_infogulch :- part1(3035).
 
+part2(Sum) :-
+    games(Gs),
+    maplist(game_max_product,Gs,Products),
+    sum_list(Products,Sum).
+
+game_max_product(_-Rounds,Product) :-
+    transpose(Rounds,[R,G,B]),
+    list_max(R,MaxR),
+    list_max(G,MaxG),
+    list_max(B,MaxB),
+    Product is MaxR*MaxG*MaxB.
+
+run_infogulch :- part1(3035).
 :- initialization(run_infogulch).
