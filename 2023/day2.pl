@@ -62,5 +62,5 @@ game_max_product(_-Rounds,Product) :-
     list_max(B,MaxB),
     Product is MaxR*MaxG*MaxB.
 
-run_infogulch :- part1(3035).
+run_infogulch :- part1(3035),part2(66027).
 :- initialization(run_infogulch).
