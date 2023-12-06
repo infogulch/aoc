@@ -1,4 +1,4 @@
-:- module(day4,[]).
+:- module(day4,[nums//1]).
 
 :- use_module(library(dcgs)).
 :- use_module(library(lists)).
@@ -30,12 +30,11 @@ cards(Input,MatchCounts) :-
     maplist(card_score,Lines,MatchCounts).
 
 
-part1(A) :-
+part1(Total) :-
     input(4,Input),
     cards(Input,MatchCounts),
     maplist(\N^P^if_(N=0,P=0,P is 2^(N-1)),MatchCounts,Points),
-    sum_list(Points,Total),
-    A = Total.
+    sum_list(Points,Total).
 
 
 addxntimes(_,0,Ls,Ls).
@@ -47,9 +46,8 @@ addxntimes(X,N,[A|As],[B|Bs]) :- dif(N,0), B is A+X, N0 is N-1, addxntimes(X,N0,
 r(T,T,[],[]).
 r(Total0,Total,[M|Matches],[C|Cards]) :- Total1 is Total0+C, addxntimes(C,M,Cards,Cards0), r(Total1,Total,Matches,Cards0).
 
-part2(A) :-
+part2(Total) :-
     input(4,Input),
     cards(Input,MatchCounts),
     maplist(\_^X^(X=1),MatchCounts,CardCounts),
-    r(0,Total,MatchCounts,CardCounts),
-    A = Total.
+    r(0,Total,MatchCounts,CardCounts).
