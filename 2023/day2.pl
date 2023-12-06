@@ -61,6 +61,3 @@ game_max_product(_-RoundColors,Product) :-
     transpose(RoundColors,ColorRounds),
     maplist(list_max, ColorRounds, [MaxR,MaxG,MaxB]),
     Product is MaxR*MaxG*MaxB.
-
-run_infogulch :- part1(3035),part2(66027).
-:- initialization(run_infogulch).

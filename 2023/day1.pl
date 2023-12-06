@@ -68,5 +68,4 @@ numeric_string(R) --> [_],numeric_string(R).
 
 
 run_infogulch :- part1(54632),part2(54019).
-
-:- initialization(run_infogulch).
+% :- initialization(run_infogulch).

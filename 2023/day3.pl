@@ -34,7 +34,3 @@ part1(A) :-
 adj(['.'|As],['.','.'|Bs])
 
 % symbol_adjacent(Symbols,Adj) :-
-
-
-run :- part1(A),write_lines(A).
-% :- initialization(run).
