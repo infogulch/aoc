@@ -14,10 +14,9 @@
 :- use_module(day1).
 :- use_module(day2).
 
-nums([]) --> ws.
-nums([N|Ns]) --> " ",ws,num(N),nums(Ns).
+nums([N|Ns]) --> num(N),ws,(" ",nums(Ns);{Ns=[]}).
 
-card(Id,Ws,Hs) --> "Card",ws,num(Id),":",nums(Ws),"|",nums(Hs).
+card(Id,Ws,Hs) --> "Card",ws,num(Id),":",ws,nums(Ws),"|",ws,nums(Hs).
 
 card_score(Line,MatchCount) :-
     phrase(card(_Id,Wins0,Haves0),Line),
