@@ -1,4 +1,4 @@
-:- module(day5,[part1/1,part2/1]).
+:- module(day5,[part1/1,part2/1,chars_type//2]).
 
 :- use_module(library(dcgs)).
 :- use_module(library(dif)).
