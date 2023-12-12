@@ -65,7 +65,3 @@ numeric_string([]) --> eof.
 numeric_string([N|R]) --> [C], {char_type(C,numeric),number_chars(N,[C])},numeric_string(R).
 numeric_string([N|R]) --> spelled_number(N),numeric_string(R).
 numeric_string(R) --> [_],numeric_string(R).
-
-
-run_infogulch :- part1(54632),part2(54019).
-% :- initialization(run_infogulch).
