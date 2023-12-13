@@ -17,7 +17,7 @@ race(Times, Records) --> "Time:",ws,nums(Times),"\n","Distance:",ws,nums(Records
 
 hold_distance(Total, Held, Distance) :- Distance is Held*(Total - Held).
 
-distances_over_record(Time, Record, N) :- MinHeld is (1/2)*(Time - sqrt(Time*Time - 4*Record)), MaxHeld is (1/2)*(Time + sqrt(Time*Time - 4*Record)), $ N is 1+floor(MaxHeld)-floor(MinHeld+1).
+distances_over_record(Time, Record, N) :- MinHeld is (1/2)*(Time - sqrt(Time*Time - 4*Record)), MaxHeld is (1/2)*(Time + sqrt(Time*Time - 4*Record)), N is 1+floor(MaxHeld)-floor(MinHeld+1).
 
 part1(Product) :-
     input(6,Input),
