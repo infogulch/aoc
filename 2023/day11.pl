@@ -1,4 +1,4 @@
-:- module(day11,[part1/1,part2/1,choose/3,seq/2]).
+:- module(day11,[part1/1,part2/1,choose/3,nats/2]).
 
 :- use_module(library(lists)).
 :- use_module(library(dcgs)).
@@ -6,6 +6,7 @@
 :- use_module(library(lambda)).
 :- use_module(library(dif)).
 :- use_module(library(between)).
+:- use_module(library(pio)).
 
 :- use_module(library(debug)).
 
@@ -26,14 +27,14 @@ split(Gs,Rs,Cs) :-
     list_to_ord_set(Rs1,Rs),
     list_to_ord_set(Cs1,Cs).
 
-seq(N,Ls) :- seq(0,N,Ls).
-seq(N,N,[N]).
-seq(C,N,[C|Ls]) :- dif(C,N),C1 is C+1,seq(C1,N,Ls).
+nats(N,Ls) :- nats(0,N,Ls).
+nats(N,N,[N]).
+nats(C,N,[C|Ls]) :- dif(C,N),C1 is C+1,nats(C1,N,Ls).
 
 missing(Gs,MRs,MCs) :-
     split(Gs,Rows,Cols),
-    list_max(Rows,MaxRows),seq(MaxRows,AllRows),ord_subtract(AllRows,Rows,MRs),
-    list_max(Cols,MaxCols),seq(MaxCols,AllCols),ord_subtract(AllCols,Cols,MCs).
+    list_max(Rows,MaxRows),nats(MaxRows,AllRows),ord_subtract(AllRows,Rows,MRs),
+    list_max(Cols,MaxCols),nats(MaxCols,AllCols),ord_subtract(AllCols,Cols,MCs).
 
 choose(_,[],[]).
 choose(1,[L|Ls],Ls1) :- transpose([[L|Ls]],Ls1).
@@ -62,7 +63,7 @@ part1(Total) :-
     maplist(dist(MissingRows,MissingCols),Pairs,Dists),
     sum_list(Dists,Total).
 
-dist2(MRs,MCs,[R1-C1,R2-C2],Dist) :- count_between(R1,R2,MRs,Rn), count_between(C1,C2,MCs,Cn), $ Dist is abs(R1-R2)+abs(C1-C2)+(Rn+Cn)*1000000.
+dist2(MRs,MCs,[R1-C1,R2-C2],Dist) :- count_between(R1,R2,MRs,Rn), count_between(C1,C2,MCs,Cn), Dist is abs(R1-R2)+abs(C1-C2)+(Rn+Cn)*(1000000-1).
 
 part2(Total) :-
     input(11,Input),
@@ -71,6 +72,17 @@ part2(Total) :-
     missing(Galaxies,MissingRows,MissingCols),
     choose(2,Galaxies,Pairs),
     maplist(dist2(MissingRows,MissingCols),Pairs,Dists),
+    sum_list(Dists,Total).
+
+dist2s(MRs,MCs,[R1-C1,R2-C2],Dist) :- count_between(R1,R2,MRs,Rn), count_between(C1,C2,MCs,Cn), $ Dist is abs(R1-R2)+abs(C1-C2)+(Rn+Cn)*(100-1).
+
+part2s(Total) :-
+    $ phrase_from_file(seq(Input),"inputs/11sample.txt"),
+    phrase(image(Gs),Input),
+    list_to_ord_set(Gs,Galaxies),
+    $ missing(Galaxies,MissingRows,MissingCols),
+    choose(2,Galaxies,Pairs),
+    maplist(dist2s(MissingRows,MissingCols),Pairs,Dists),
     sum_list(Dists,Total).
 
 % 790195502522 too high

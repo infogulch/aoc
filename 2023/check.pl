@@ -24,7 +24,7 @@ check("45a6bcaa93cb837edbd0a55d87bebcb17052759dadf995357bd173f58bb763e6a13094b67
     day8:part1(16409),
     day9:part1(1479011877),day9:part2(973),
     day10:part1(6927),
-    day11:part1(10292708).
+    day11:part1(10292708),day11:part2(790194712336).
 
 run :-
     cookie(Cookie),
