@@ -3,6 +3,7 @@
 :- use_module(library(assoc)).
 :- use_module(library(lists)).
 :- use_module(library(dcgs)).
+:- use_module(library(reif)).
 :- use_module(library(pio)).
 
 :- use_module(library(debug)).
@@ -24,7 +25,7 @@ document(Dirs,Net) --> lrs(Dirs),"\n\n",net(Net).
 
 follow(_,_,_,Key,Key,0).
 follow(A,Dirs0,[],Key,TargetKey,N) :- follow(A,Dirs0,Dirs0,Key,TargetKey,N).
-follow(A,Dirs0,[D|Dirs],Key,TargetKey,N) :- get_assoc(Key,A,L-R),(D='L',follow(A,Dirs0,Dirs,L,TargetKey,N0);D='R',follow(A,Dirs0,Dirs,R,TargetKey,N0)),N is N0+1.
+follow(A,Dirs0,[D|Dirs],Key,TargetKey,N) :- next(A,D,Key,NKey),follow(A,Dirs0,Dirs,NKey,TargetKey,N0),N is N0+1.
 
 part1(Steps) :-
     input(8,Input),
@@ -38,6 +39,28 @@ part1s(Steps) :-
     list_to_assoc(Net,Assoc),
     once(follow(Assoc,Dirs,Dirs,"AAA","ZZZ",Steps)).
 
-part2(A) :-
+ends_with(L, [_,_,E], T) :- =(L, E, T).
+
+next(A,D,Key,NKey) :- get_assoc(Key,A,L-R),if_(D='L',NKey=L,NKey=R).
+
+next_all(A,D,Keys,NKeys) :- maplist(next(A,D),Keys,NKeys).
+
+tall(If_1, Ls0, T) :- tfilter(If_1,Ls0,Ls1),length(Ls0,N0),length(Ls1,N1),=(N0,N1,T).
+
+follow_all(A,Dirs0,[],Keys,N0,N) :- follow_all(A,Dirs0,Dirs0,Keys,N0,N).
+follow_all(A,Dirs0,[D|Dirs],Keys,N0,N) :- if_(tall(ends_with('Z'),Keys), N=N0, (next_all(A,D,Keys,NKeys),N1 is N0+1,follow_all(A,Dirs0,Dirs,NKeys,N1,N))).
+
+/* theoretically a correct brute force solution; but it appears that the actual solution may require trillions of iterations, thus needs a more analytical approach */
+part2slow(N) :-
     input(8,Input),
-    A = Input.
+    phrase(document(Dirs,Net), Input),
+    list_to_assoc(Net,Assoc),
+    assoc_to_keys(Assoc,Keys),
+    tfilter(ends_with('A'), Keys, AKeys),
+    follow_all(Assoc,Dirs,Dirs,AKeys,0,N).
+
+part2(0).
+
+/*
+I guess you can't use tfilter with lambda?
+*/
