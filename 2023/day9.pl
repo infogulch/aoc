@@ -42,5 +42,3 @@ part2(Sum) :-
     phrase(histories(Hs),Input),
     maplist(first,Hs,Firsts),
     sum_list(Firsts,Sum).
-
-% 17705 is too high
