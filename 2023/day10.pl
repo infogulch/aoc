@@ -32,17 +32,27 @@ map(KV) --> rows(KV,0).
 path_length(_,Start,_,Start,N,N).
 path_length(A,Start,Prev,K,N0,N) :- dif(Start,K),get_assoc(K,A,K1-K2),(K1==Prev,Next=K2;K2==Prev,Next=K1),N1 is N0+1,path_length(A,Start,K,Next,N1,N).
 
-adj(R-C,Next) :- member(L,"|-LJ7F"),phrase(conn(R,C,_-Next),[L]).
+connected(A,R-C,M) :- get_assoc(R-C,A,K1-K2),(K1=M;K2=M).
+
+adj(A,R-C,Next1-Next2) :- member(L,"|-LJ7F"),phrase(conn(R,C,Next1-Next2),[L]),connected(A,Next1,R-C),connected(A,Next2,R-C),_A=found(L).
 
 part1(A) :-
     input(10,Input),
     phrase(map(KV),Input),
     member(K-'S', KV),
     list_to_assoc(KV,Assoc),
-    adj(K,Next),
+    adj(Assoc,K,Next-_),
     path_length(Assoc,K,K,Next,0,N),
     A is round(N/2).
 
+get_path(_,Start,_,Start,P,P).
+get_path(A,Start,Prev,K,P0,P) :- dif(Start,K),get_assoc(K,A,K1-K2),(K1==Prev,Next=K2;K2==Prev,Next=K1),get_path(A,Start,K,Next,[K|P0],P).
+
 part2(A) :-
     input(10,Input),
-    A = Input.
+    phrase(map(KV),Input),
+    member(K-'S', KV),
+    list_to_assoc(KV,Assoc),
+    adj(Assoc,K,Next-_),
+    get_path(Assoc,K,K,Next,[],P),
+    A = P.
