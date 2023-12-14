@@ -10,6 +10,7 @@
 % :- use_module(day7).
 :- use_module(day8).
 :- use_module(day9).
+:- use_module(day10).
 
 check("45a6bcaa93cb837edbd0a55d87bebcb17052759dadf995357bd173f58bb763e6a13094b67d93b4ad36978e2ae8357a2c") :-
     day1:part1(54632),day1:part2(54019),
@@ -20,7 +21,8 @@ check("45a6bcaa93cb837edbd0a55d87bebcb17052759dadf995357bd173f58bb763e6a13094b67
     day6:part1(220320),day6:part2(34454850),
     % day7:part1(),day7:part2(),
     day8:part1(16409),
-    day9:part1(1479011877).
+    day9:part1(1479011877),day9:part2(973),
+    day10:part1(6927).
 
 run :-
     cookie(Cookie),

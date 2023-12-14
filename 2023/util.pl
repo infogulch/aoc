@@ -30,5 +30,3 @@ zip([],[],[]).
 zip([A|As],[B|Bs],[A-B|ABs]) :- zip(As,Bs,ABs).
 
 tall(If_1, Ls0, T) :- tfilter(If_1,Ls0,Ls1),length(Ls0,N0),length(Ls1,N1),=(N0,N1,T).
-
-
