@@ -34,4 +34,13 @@ part1s(Sum) :-
     maplist(next,Hs,Nexts),
     sum_list(Nexts,Sum).
 
-part2(2).
+first([],0).
+first(As,F) :- pairwise_diff(As,Bs),As=[A|_],first(Bs,B),F is A-B.
+
+part2(Sum) :-
+    input(9,Input),
+    phrase(histories(Hs),Input),
+    maplist(first,Hs,Firsts),
+    sum_list(Firsts,Sum).
+
+% 17705 is too high
